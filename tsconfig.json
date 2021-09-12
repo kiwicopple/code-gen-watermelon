@@ -1,0 +1,18 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "ES2015",
+
+    "strict": true,
+
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+
+    "forceConsistentCasingInFileNames": true,
+    "stripInternal": true
+  }
+}
