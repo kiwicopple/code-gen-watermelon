@@ -23,35 +23,44 @@ export default {
       fancy,
     },
   }: GluegunToolbox) => {
+
+    // Give the user some info
     const spinner = spin('Generating...')
-    try {
-      spinner.start()
+    spinner.start()
 
-      // Get the tables
-      const tables = await Meta.tables.list()
+    // Get the tables
+    const tables = await Meta.tables.list()
 
-      // Generate a model for every database table
-      if (tables.data) {
-        const promises = tables?.data?.map(async (table) => {
-          await generate({
-            template: '/watermelon/model.ejs',
-            target: `./database/models/${table.name}.ts`,
-            props: {
-              name: table.name,
-            },
-          }).catch((error) => {
-            error(error.message)
-          })
+    // Generate a model for every database table
+    if (tables.data) {
+      const promises = tables?.data?.map(async (table) => {
+        generate({
+          template: '/watermelon/model.ejs',
+          target: `./database/models/${table.name}.ts`,
+          props: {
+            name: table.name,
+          },
         })
-        await Promise.all(promises)
-      }
+      })
 
-      // Finished
-      spinner.succeed('Finished.')
-      fancy(highlight(`Check "./database"`))
-    } catch (error: any) {
-      spinner.fail(`Error writing Docker setup files: ${error.message}`)
-      error(error.message)
+      await Promise.all(promises).catch((error) => {
+        spinner.fail(`Error writing tables: ${error.message}`)
+      })
     }
+
+    // Generate the database index
+    await generate({
+      template: '/watermelon/database.ejs',
+      target: `./database/database.ts`,
+      props: {
+        tables: tables.data,
+      },
+    }).catch((error) => {
+      spinner.fail(`Error writing database: ${error.message}`)
+    })
+
+    // Finished
+    spinner.succeed('Finished.')
+    fancy(highlight(`Check "./database"`))
   },
 }

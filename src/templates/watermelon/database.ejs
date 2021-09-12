@@ -1,0 +1,15 @@
+// Auto-generated.
+// Do not edit manually.
+
+import Database from '@nozbe/watermelondb/Database'
+<% for(var i=0; i < props.tables.length; i++) { %>
+import <%= props.tables[i].name %> from './models/<%= props.tables[i].name %>'<% i -%>
+<% } %>
+
+
+const database = new Database({
+  modelClasses: [
+  <% for(var i=0; i < props.tables.length; i++) { %><% i -%>
+  <%= props.tables[i].name %>,
+  <% } %>]
+})
