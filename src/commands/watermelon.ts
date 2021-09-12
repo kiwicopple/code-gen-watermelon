@@ -39,13 +39,14 @@ export default {
           target: `./database/models/${table.name}.ts`,
           props: {
             name: table.name,
+            columns: table.columns,
           },
+        }).catch((error) => {
+          spinner.fail(`Error writing tables: ${error.message}`)
         })
       })
 
-      await Promise.all(promises).catch((error) => {
-        spinner.fail(`Error writing tables: ${error.message}`)
-      })
+      await Promise.all(promises)
     }
 
     // Generate the database index

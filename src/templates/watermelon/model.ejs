@@ -1,9 +1,13 @@
 // Auto-generated.
 // Do not edit manually.
 
-// model/<%= props.name %>.js
+import { field, text } from '@nozbe/watermelondb/decorators'
 import { Model } from '@nozbe/watermelondb'
 
 export default class <%= props.name %> extends Model {
   static table = '<%= props.name %>'
+
+  <% for(var i=0; i < props.columns.length; i++) { %><% i -%>
+  @text('<%= props.columns[i].name %>') <%= props.columns[i].name %>: string
+  <% } %>
 }
