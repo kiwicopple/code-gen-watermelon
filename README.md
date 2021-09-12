@@ -1,6 +1,6 @@
 # Watermelon code generator
 
-An experimental generator to produce watermelon.js database from Postgres.
+An experimental generator to produce [WatermelonDB](https://nozbe.github.io/WatermelonDB/index.html) database from Postgres.
 
 ## Usage
 
